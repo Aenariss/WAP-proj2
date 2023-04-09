@@ -12,7 +12,7 @@ export class Robot {
     /**
      * Create a robot
      * @param {number} id - ID to identify the robot by
-     * @param {Object} initPos - initial position of the robot in the ofmr of {x,y} coordinates
+     * @param {Object} initPos - initial position of the robot in the ofmr of {row,col} coordinates
      * @param {function} moveFunction - function that the robot will use to calculate its next position
      */
     constructor(id, initPos, moveFunction) {
@@ -34,7 +34,7 @@ export class Robot {
 
     /**
      * method to get robot's current coordinates
-     * @returns {Object} coordinates as in {x, y}
+     * @returns {Object} coordinates as in {row, col}
      */
     getCoords() {
         return this.coords;

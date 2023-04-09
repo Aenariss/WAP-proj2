@@ -13,9 +13,9 @@ var west = 3;
 /**
  * Function to calculate where the robot will move next using a random generation
  * @param {Object} map - Object that represents the map
- * @param {Object} coords - coordinates of the robot in the form of {x,y}
+ * @param {Object} coords - coordinates of the robot in the form of {row, col}
  * @param {int} direction - integer representing which direction the robot is facing (0,1,2,3 for north,east,south,west)
- * @returns {Object} {{x, y}, dir} which represent the new coordinates and direction
+ * @returns {Object} {{row, col}, dir} which represent the new coordinates and direction
  */
 export function randomWalk(map, coords, direction) {
     let poss_moves = map.possibleMovesFrom(coords);

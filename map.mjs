@@ -94,12 +94,12 @@ export class Map {
 
     /**
      * Method to convert coords to string in
-     * @param {number} x 
-     * @param {number} y 
-     * @returns {Object} Object with x and y
+     * @param {number} row
+     * @param {number} col 
+     * @returns {Object} Object with row and col
      */
-    #coordsToObj(x, y) {
-        return {x, y};
+    #coordsToObj(row, col) {
+        return {row, col};
     }
 
     /**
@@ -109,8 +109,8 @@ export class Map {
      * @returns {Array} array of coords of unvisited neighbors
      */
     #univisitedNeighbours(visited, coords) {
-        let row = coords.x;
-        let col = coords.y;
+        let row = coords.row;
+        let col = coords.col;
         
         let neighbors = [];
 
@@ -160,19 +160,19 @@ export class Map {
                 let randomNeighbor = newNeighbours[Math.floor(Math.random() * newNeighbours.length)]; // Choose one of the unvisited neighbours
                 
                 let wallY, wallX;
-                if (currCell.coords.x != randomNeighbor.x) { // 
-                    wallY = 2*randomNeighbor.y-1; // 1 1, 3 2, 5 3, 7 4 9 5
-                    wallX = randomNeighbor.x + currCell.coords.x - 1; // 21 31 -> 41 wall 11 21 -> 21, 41 51 -> 81
+                if (currCell.coords.row != randomNeighbor.row) { // 
+                    wallY = 2*randomNeighbor.col-1; // 1 1, 3 2, 5 3, 7 4 9 5
+                    wallX = randomNeighbor.row + currCell.coords.row - 1; // 21 31 -> 41 wall 11 21 -> 21, 41 51 -> 81
                 }
 
-                else if (currCell.coords.y != randomNeighbor.y) {
-                    wallY = randomNeighbor.y + currCell.coords.y - 1;
-                    wallX = 2*randomNeighbor.x-1; // 11 12 -> 12; 12 13 -> 14, 21, 22 -> 32
+                else if (currCell.coords.col != randomNeighbor.col) {
+                    wallY = randomNeighbor.col + currCell.coords.col - 1;
+                    wallX = 2*randomNeighbor.row-1; // 11 12 -> 12; 12 13 -> 14, 21, 22 -> 32
                 }
 
                 walledMap[wallX][wallY] = "0" // Remove the wall between the current cell and the chosen cell
 
-                visited[randomNeighbor.x][randomNeighbor.y] = "v"; // Mark the chosen cell as visited
+                visited[randomNeighbor.row][randomNeighbor.col] = "v"; // Mark the chosen cell as visited
                 let chosenVal = {"visited" : "v", "coords" : randomNeighbor}; 
                 stack.push(chosenVal); // and push it to the stack
             }
@@ -216,14 +216,14 @@ export class Map {
 
     /**
      * Method to get the object on the givne coords in map
-     * @param {Object} coords - coords in the form of {x, y} where x is row and y is col
+     * @param {Object} coords - coords in the form of {row, col}
      * @returns {*} value on the givne coords
      */
     getCoordsObject(coords) {
-        if (coords.x >= this.getHeight() || coords.x < 0 || coords.y < 0 || coords.y >= this.getWidth()) {
+        if (coords.row >= this.getHeight() || coords.row < 0 || coords.col < 0 || coords.col >= this.getWidth()) {
             throw new Error("Invalid position to find possible moves from!");
         }
-        return this.map[coords.x][coords.y];
+        return this.map[coords.row][coords.col];
     }
 
     /**
@@ -241,7 +241,7 @@ export class Map {
 
     /**
      * Method to find moves possible from a given coordinates
-     * @param {Object} coords - coords in the form of {x,y}
+     * @param {Object} coords - coords in the form of {row, col}
      * @returns {Array} Array containig coordinates with possible moves and the direction they aim into
      */
     possibleMovesFrom(coords) {
@@ -252,18 +252,18 @@ export class Map {
         var south = 2;
         var west = 3;
 
-        if (coords.x >= this.getWidth()-1 || coords.x < 1 || coords.y < 1 || coords.y >= this.getHeight()-1) {
+        if (coords.col >= this.getWidth()-1 || coords.col < 1 || coords.row < 1 || coords.row >= this.getHeight()-1) {
             throw new Error("Invalid position to find possible moves from!");
         }
 
         // north
-        if (this.getCoordsObject({"x" : coords.x-1, "y": coords.y}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x-1, "y": coords.y}, "direction" : north});
+        if (this.getCoordsObject({"row" : coords.row-1, "col": coords.col}) === "0")  possibleMoves.push({"coords" : {"row" : coords.row-1, "col": coords.col}, "direction" : north});
         // south
-        if (this.getCoordsObject({"x" : coords.x+1, "y": coords.y}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x+1, "y": coords.y}, "direction" : south});
+        if (this.getCoordsObject({"row" : coords.row+1, "col": coords.col}) === "0")  possibleMoves.push({"coords" : {"row" : coords.row+1, "col": coords.col}, "direction" : south});
         // east
-        if (this.getCoordsObject({"x" : coords.x, "y": coords.y+1}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x, "y": coords.y+1}, "direction" : east});
+        if (this.getCoordsObject({"row" : coords.row, "col": coords.col+1}) === "0")  possibleMoves.push({"coords" : {"row" : coords.row, "col": coords.col+1}, "direction" : east});
         // west
-        if (this.getCoordsObject({"x" : coords.x, "y": coords.y-1}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x, "y": coords.y-1}, "direction" : west});
+        if (this.getCoordsObject({"row" : coords.row, "col": coords.col-1}) === "0")  possibleMoves.push({"coords" : {"row" : coords.row, "col": coords.col-1}, "direction" : west});
 
         return possibleMoves;
     }
