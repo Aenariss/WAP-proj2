@@ -1,7 +1,7 @@
 {
-    "name": "map",
+    "name": "wap2",
     "version": "1.0.0",
-    "description": "A module that exports a map class",
+    "description": "A collection of modules that serve as backend of the WAP 2 project",
     "main": "map.mjs",
     "type": "module",
     "author": "Vojtěch Fiala",

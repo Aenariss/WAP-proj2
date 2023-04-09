@@ -215,7 +215,19 @@ export class Map {
     }
 
     /**
-     * Function to print the ascii representation of the map
+     * Method to get the object on the givne coords in map
+     * @param {Object} coords - coords in the form of {x, y} where x is row and y is col
+     * @returns {*} value on the givne coords
+     */
+    getCoordsObject(coords) {
+        if (coords.x >= this.getHeight() || coords.x < 0 || coords.y < 0 || coords.y >= this.getWidth()) {
+            throw new Error("Invalid position to find possible moves from!");
+        }
+        return this.map[coords.x][coords.y];
+    }
+
+    /**
+     * Method to print the ascii representation of the map
      */
     printMap() {
         let map = this.getMap();
@@ -225,6 +237,35 @@ export class Map {
             }
             process.stdout.write("\n");
         }
+    }
+
+    /**
+     * Method to find moves possible from a given coordinates
+     * @param {Object} coords - coords in the form of {x,y}
+     * @returns {Array} Array containig coordinates with possible moves and the direction they aim into
+     */
+    possibleMovesFrom(coords) {
+        let possibleMoves = [];
+
+        var north = 0;
+        var east = 1;
+        var south = 2;
+        var west = 3;
+
+        if (coords.x >= this.getWidth()-1 || coords.x < 1 || coords.y < 1 || coords.y >= this.getHeight()-1) {
+            throw new Error("Invalid position to find possible moves from!");
+        }
+
+        // north
+        if (this.getCoordsObject({"x" : coords.x-1, "y": coords.y}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x-1, "y": coords.y}, "direction" : north});
+        // south
+        if (this.getCoordsObject({"x" : coords.x+1, "y": coords.y}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x+1, "y": coords.y}, "direction" : south});
+        // east
+        if (this.getCoordsObject({"x" : coords.x, "y": coords.y+1}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x, "y": coords.y+1}, "direction" : east});
+        // west
+        if (this.getCoordsObject({"x" : coords.x, "y": coords.y-1}) === "0")  possibleMoves.push({"coords" : {"x" : coords.x, "y": coords.y-1}, "direction" : west});
+
+        return possibleMoves;
     }
 
     /**
