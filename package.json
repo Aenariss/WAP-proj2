@@ -1,0 +1,11 @@
+{
+    "name": "map",
+    "version": "1.0.0",
+    "description": "A module that exports a map class",
+    "main": "map.mjs",
+    "type": "module",
+    "author": "Vojtěch Fiala",
+    "dependencies": {
+      "jsdoc": "^4.0.2"
+    }
+  }
