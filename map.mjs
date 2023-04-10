@@ -215,15 +215,42 @@ export class Map {
     }
 
     /**
+     * Function to check if given coords are in the map
+     * @param {Object} coords row, col
+     */
+    #checkCoordsValidity(coords) {
+        if (coords.row >= this.getHeight() || coords.row < 0 || coords.col < 0 || coords.col >= this.getWidth()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Method to get the object on the givne coords in map
      * @param {Object} coords - coords in the form of {row, col}
      * @returns {*} value on the givne coords
      */
     getCoordsObject(coords) {
-        if (coords.row >= this.getHeight() || coords.row < 0 || coords.col < 0 || coords.col >= this.getWidth()) {
-            throw new Error("Invalid position to find possible moves from!");
+        if (this.#checkCoordsValidity(coords)) {
+            return this.map[coords.row][coords.col];
         }
-        return this.map[coords.row][coords.col];
+        else {
+            throw new Error("Invalid position!");
+        }
+    }
+
+    /**
+     * Method to set a value on a given position in the map
+     * @param {Object} coords - row, col
+     * @param {*} value - new value of the cell
+     */
+    setCoordsObject(coords, value) {
+        if (this.#checkCoordsValidity(coords)) {
+            this.map[coords.row][coords.col] = value;
+        }
+        else {
+            throw new Error("Invalid position!");
+        }
     }
 
     /**
@@ -237,6 +264,7 @@ export class Map {
             }
             process.stdout.write("\n");
         }
+        process.stdout.write("\n");
     }
 
     /**
