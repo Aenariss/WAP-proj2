@@ -133,6 +133,7 @@ export class Map {
      * https://en.wikipedia.org/wiki/Maze_generation_algorithm - iterative DFS
      * @param {number} height - The height of the map to generate
      * @param {number} width - width of the map to generate
+     * @returns {Array} 2D array representing the walled map
      */
     #generateMap(height, width) {
 
@@ -232,7 +233,8 @@ export class Map {
      */
     getCoordsObject(coords) {
         if (this.#checkCoordsValidity(coords)) {
-            return this.map[coords.row][coords.col];
+            let map = this.getMap();
+            return map[coords.row][coords.col];
         }
         else {
             throw new Error("Invalid position!");
@@ -246,7 +248,9 @@ export class Map {
      */
     setCoordsObject(coords, value) {
         if (this.#checkCoordsValidity(coords)) {
-            this.map[coords.row][coords.col] = value;
+            let map = this.getMap();
+            map[coords.row][coords.col] = value;
+            this.updateMap(map);
         }
         else {
             throw new Error("Invalid position!");
@@ -258,8 +262,10 @@ export class Map {
      */
     printMap() {
         let map = this.getMap();
-        for (let row_num = 0; row_num < this.height; row_num++) {
-            for (let col_num = 0; col_num < this.width; col_num++) {
+        let height = this.getHeight();
+        let width = this.getWidth();
+        for (let row_num = 0; row_num < height; row_num++) {
+            for (let col_num = 0; col_num < width; col_num++) {
                 process.stdout.write(map[row_num][col_num].toString());
             }
             process.stdout.write("\n");
