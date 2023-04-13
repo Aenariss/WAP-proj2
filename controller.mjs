@@ -15,6 +15,7 @@ export class Controller {
         this.map = null; // needs to be initialized separately
         this.robots = []; // empty array to store the robots
         this.delay = 50; // default delay of 1 move per second
+        this.delay = 50; // default delay of 1 move per second
     }
 
     /**
@@ -74,6 +75,46 @@ export class Controller {
     }
 
     /**
+     * Getter for robots arr
+     * @returns {Array} robots arr
+     */ 
+    getRobots() {
+        return this.robots;
+    }
+
+    /**
+     * Setter for robots arr
+     * @param {Array} robots - new robots arr
+     */ 
+    setRobots(robots) {
+        this.robots = robots;
+    }
+
+    /**
+     * Method to add a robot to the robot arr
+     * @param {Robot} robot - a robot to add
+     */
+    #appendRobot(robot) {
+        this.robots.push(robot);
+    }
+
+    /**
+     * Setter for the delay
+     * @param {int} delay - a new delay in miliseconds
+     */
+    setDelay(delay) {
+        this.delay = delay;
+    }
+
+    /**
+     * Getter for the delay
+     * @returns {int} delay - current delay value
+     */
+    getDelay() {
+        return this.delay;
+    }
+
+    /**
      * Method to add a robot to the field
      * @param {int} id - id of the robot
      * @param {Object} initCoords - initial robot coords
@@ -86,6 +127,7 @@ export class Controller {
         }
         let robot = new Robot(id, initCoords, controlFunc);
         this.#appendRobot(robot); // add the robot to the array
+        this.#appendRobot(robot); // add the robot to the array
         this.#putIntoMap(initCoords, "2"); // and put it into the map;
     }
 
@@ -95,6 +137,9 @@ export class Controller {
      */
     deleteRobotById(id) {
         let index = null;
+        let robots = this.getRobots();
+        for(let i = 0; i < robots.length; i++) {
+            if (robots[i].id === id) {
         let robots = this.getRobots();
         for(let i = 0; i < robots.length; i++) {
             if (robots[i].id === id) {
@@ -109,39 +154,14 @@ export class Controller {
     }
 
     /**
-     * Method to delete a robot by its ID
-     * @param {Object} coords -- coords in the form or row, col
-     */
-    deleteRobotByCoords(coords) {
-        let index = null;
-        let robots = this.getRobots();
-        for(let i = 0; i < robots.length; i++) {
-
-            let robCoords = robots[i].getCoords();
-
-            if (robCoords.row === coords.row && robCoords.col === coords.col) {
-                index = i;
-            }
-        }
-
-        // i found the robot in the array
-        if (index !== null) {
-            this.#removeFromMap(robots[index].getCoords(), "2"); // remove the robot from the map
-
-            let arr_without_the_robot = robots.filter(function(robot){  // filter the array so that it doesnt contain the previous robot
-                return (robot != robots[index]);
-            });
-            this.setRobots(arr_without_the_robot); // replace robot w/ the array w/o our poor deleted friend
-        }
-    }
-
-    /**
      * Method to remove something from the map and replace it with path
      * @param {Object} coords - row, col
      * @param {*} value - value of the something you want to replace (eg. 2 to replace  a robot)
      */
     #removeFromMap(coords, value) {
         // check if the position contains a robot
+        if (this.getMapObj().getCoordsObject(coords) === value) { // 2 is a robot for example
+            this.getMapObj().setCoordsObject(coords, "0"); // replace robot with a path
         if (this.getMapObj().getCoordsObject(coords) === value) { // 2 is a robot for example
             this.getMapObj().setCoordsObject(coords, "0"); // replace robot with a path
         }
@@ -156,6 +176,8 @@ export class Controller {
      * @param {*} value 
      */
     #putIntoMap(coords, value) {
+        if (this.getMapObj().getCoordsObject(coords) === "0") { // 2 is a robot
+            this.getMapObj().setCoordsObject(coords, value); // replace robot with a path
         if (this.getMapObj().getCoordsObject(coords) === "0") { // 2 is a robot
             this.getMapObj().setCoordsObject(coords, value); // replace robot with a path
         }
@@ -175,6 +197,7 @@ export class Controller {
         //    return;
 
         let initCoords = robot.getCoords(); // init coords
+        robot.move(this.getMapObj()); // calculate its next position
         robot.move(this.getMapObj()); // calculate its next position
         let newCoords = robot.getCoords(); // new coords
 
