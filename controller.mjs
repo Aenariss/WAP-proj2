@@ -12,9 +12,15 @@ export class Controller {
      * initialize the controller
      */
     constructor() {
+<<<<<<< HEAD
         this.map = null; // needs to be initialized separately
         this.robots = []; // empty array to store the robots
         this.delay = 50; // default delay of 1 move per second
+=======
+        this.map = null;   // needs to be initialized separately
+        this.robots = [];  // empty array to store the robots
+        this.delay = 1000; // default delay of 1 move per second (delay is in milliseconds)
+>>>>>>> frontend-init
     }
 
     /**

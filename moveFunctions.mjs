@@ -48,13 +48,13 @@ export function randomWalk(map, coords, direction) {
         }
         // i didnt find a move in my direction
         if (new_dir === null && new_dirmove_flag === false) {
-            new_dir = poss_moves[Math.floor(Math.random() * poss_moves.length)] // pick oen direction at random
+            new_dir = poss_moves[Math.floor(Math.random() * poss_moves.length)]; // pick oen direction at random
             direction = new_dir.direction;
             new_dir = new_dir.coords;
         }
         // robot changes direction because of rng, but he can change it towards the original one, too
         else if (new_dirmove_flag === true) {
-            new_dir = poss_moves[Math.floor(Math.random() * poss_moves.length)] // pick oen direction at random
+            new_dir = poss_moves[Math.floor(Math.random() * poss_moves.length)]; // pick oen direction at random
             direction = new_dir.direction;
             new_dir = new_dir.coords;
         }
@@ -62,5 +62,10 @@ export function randomWalk(map, coords, direction) {
 
     let retVal = {"coords" : new_dir, "direction" : direction};
     return retVal;
-
 }
+
+
+// dalsi funkce bude, ze jde porad rovne dokud nenarazi v jeho smeru na prekazku... pak smer (nahodne?) meni
+
+// dalsi 3 pohyby.... idk? jde porad nejak, dokud nenarazi na robota - pak se otaci a pokracuje smerem odkud prisel
+// rightHand move a leftHand move?
