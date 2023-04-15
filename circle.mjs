@@ -1,20 +1,18 @@
 /**
  * A module that contains a move functions, meant to be used with the Robot class
- * @module rectangle
+ * @module circle
  * @author: Zaneta Grossova <xgross11>
 */
 
-import { Circle } from "./circle.mjs";
+export class Circle {
 
-export class Rectangle {
-
-    constructor(row, col, cellSide, map, context) {
-        this.row = row;
+    constructor(row, col, cellSide, map, context){
+        this.row = row
+        this.col = col
         this.cellSide = cellSide;
-        this.col = col;
         this.map = map;
         this.context = context;
-    }
+    }      
     
     /**
      * Getter for the col
@@ -56,30 +54,16 @@ export class Rectangle {
         return this.map;
     }
 
-    drawRectangle() {
-
-        let row = this.getRow();
+    drawCircle(){
+        let context = this.getContext();
         let col = this.getCol();
+        let row = this.getRow();
         let cellSide = this.getCellSide();
 
-        let x = col * cellSide;
-        let y = row * cellSide;
-
-        let map = this.getMap();
-            
-        let cellColor;
-        let context = this.getContext();
-
-        if (map[row][col] === "0") { //path is white
-            cellColor = '#ffffff';
-        }
-        else if (map[row][col] === "1") { // wall is grey
-            cellColor = '#808080';
-        }
         context.beginPath();
-        context.fillStyle = cellColor;
-        context.fillRect(x, y, cellSide, cellSide); 
- 
+        context.arc((col*cellSide)+(cellSide/2), (row*cellSide)+(cellSide/2), cellSide/3, 0, (Math.PI*2))
+        context.fillStyle = '#0000FF'
+        context.fill()
     }
 
 }

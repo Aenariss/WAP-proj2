@@ -76,7 +76,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 })
 
 function check_values(width, height) {
-    
     if(width === height) {
         if(width % 2 === 1) 
             return true;
