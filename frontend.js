@@ -1,17 +1,22 @@
+/**
+ * Frontend control functions
+ * @author: Zaneta Grossova <xgross11>, Vojtech Fiala <xfiala61>
+ */
+
 import { printMap } from './printMap.mjs';
 import { Controller } from "./controller.mjs"
 import { randomWalk } from "./moveFunctions.mjs"
 
-let controller = new Controller();
+const controller = new Controller();
 
-let map;
+let map = null;
+
+const map_canvas = document.getElementById("mapCanvas");
+const map_canvas_context = map_canvas.getContext('2d');
  
-window.addEventListener('DOMContentLoaded', (event) =>{
+window.addEventListener('DOMContentLoaded', (event) => {
 
-    let map_canvas = document.getElementById("mapCanvas");
     let createMapButton = document.getElementById("createMapButton");
-
-    let map_canvas_context = map_canvas.getContext('2d');
 
     // dynamic canvas size based on size of the screen
     map_canvas.width  = window.innerHeight/1.2;
@@ -34,15 +39,28 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         const canvasBound = map_canvas.getBoundingClientRect()
         const x = e.clientX - canvasBound.left
         const y = e.clientY - canvasBound.top
+
         let coords = getMapCoordinates(x, y, map_canvas, controller.getMapObj().getWidth());
-        robots++;
-        controller.addRobot(robots, {"row":coords.y, "col":coords.x}, randomWalk);
-        console.log("robot number " + robots + " x: " + coords.x + " y: " + coords.y)
-        if(robots == 1) {
-            setInterval( function() {
-                controller.doRobotMovement();
-                printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
-            }, controller.delay)
+        let coords_obj = {"row":coords.y, "col":coords.x};
+
+        if (controller.getRobots().length <= 30) { // hard limit on max number of robots because when there's too much of them, bad stuff happens
+
+            if (controller.getMapObj().getCoordsObject(coords_obj) === "0") {  // Remember, Robot can only be placed on a path, not on another robot or in a wall
+                controller.addRobot(robots, coords_obj, randomWalk); // this throws an error if you can't place the robot on given coords
+                console.log("robot number " + robots + " x: " + coords.x + " y: " + coords.y)
+                robots++; // only increase robot ID count if we can
+            }
+            else if (controller.getMapObj().getCoordsObject(coords_obj) === "2") { // you clicked on a robot! poor lad, lets delete him
+                controller.deleteRobotByCoords(coords_obj);
+                console.log("deleted robot on coords x: " + coords.x + " y: " + coords.y);
+                robots++; //incement ID anyway cuz why not
+            }
+            else {
+                console.log("Trying to do something we shouldn't aren't we");
+            }
+        }
+        else {
+            console.log("Can't add another robot, there's too much of them already!")
         }
         printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
         
@@ -58,12 +76,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 })
 
 function check_values(width, height) {
-    if(width == height) {
-        if(width % 2 == 1) 
+    if(width === height) {
+        if(width % 2 === 1) 
             return true;
         else {
-            alert("Width and height has to odd!")
-            return false
+            alert("Width and height has to odd!");
+            return false;
         }
     } else {
         alert("Width and height has to be equal numbers!");
@@ -72,7 +90,15 @@ function check_values(width, height) {
 }
 
 function getMapCoordinates(mouseX, mouseY, map_canvas, width) {
-    let x = mouseX/(map_canvas.width/width)|0
-    let y = mouseY/(map_canvas.width/width)|0
-    return {x, y}
+    let x = mouseX/(map_canvas.width/width)|0;
+    let y = mouseY/(map_canvas.width/width)|0;
+    return {x, y};
 }
+
+// this MUST be done only once, otherwise if I did this every time I add a robot, it wouldnt end well ( a new counter would be made each time)
+setInterval( function() {
+    if (map !== null) {
+        controller.doRobotMovement(); 
+        printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
+    }
+}, controller.getDelay());

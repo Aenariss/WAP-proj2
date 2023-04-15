@@ -12,8 +12,8 @@ export function printMap(height, width, canvas, context, controller) {
 
     const cellSide = canvas.width/width;
 
-    for (let row = 0; row < canvas.width/width; row++) {
-        for (let col = 0; col < canvas.height/height; col++) {
+    for (let row = 0; row < height; row++) {
+        for (let col = 0; col < width; col++) {
             let rect = new Rectangle(row, col, cellSide, map, context);
             rect.drawRectangle();
         }

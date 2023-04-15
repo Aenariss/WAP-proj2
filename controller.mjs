@@ -12,15 +12,9 @@ export class Controller {
      * initialize the controller
      */
     constructor() {
-<<<<<<< HEAD
         this.map = null; // needs to be initialized separately
         this.robots = []; // empty array to store the robots
-        this.delay = 50; // default delay of 1 move per second
-=======
-        this.map = null;   // needs to be initialized separately
-        this.robots = [];  // empty array to store the robots
-        this.delay = 1000; // default delay of 1 move per second (delay is in milliseconds)
->>>>>>> frontend-init
+        this.delay = 1000; // default delay of 1 move per second
     }
 
     /**
@@ -86,6 +80,10 @@ export class Controller {
      * @param {Function} controlFunc - function that decides how the robot moves
      */
     addRobot(id, initCoords, controlFunc) {
+        let map = this.getMapObj();
+        if (map.getCoordsObject(initCoords) !== "0") {
+            throw new Error("Can't place a robot here, sorry.");
+        }
         let robot = new Robot(id, initCoords, controlFunc);
         this.#appendRobot(robot); // add the robot to the array
         this.#putIntoMap(initCoords, "2"); // and put it into the map;
@@ -95,7 +93,7 @@ export class Controller {
      * Method to delete a robot by its ID
      * @param {int} id 
      */
-    deleteRobot(id) {
+    deleteRobotById(id) {
         let index = null;
         let robots = this.getRobots();
         for(let i = 0; i < robots.length; i++) {
@@ -107,6 +105,33 @@ export class Controller {
         if (index !== null) {
             this.#removeFromMap(robots[index].coords);
             this.setRobots(robots.splice(index, 1)); // remove from array
+        }
+    }
+
+    /**
+     * Method to delete a robot by its ID
+     * @param {Object} coords -- coords in the form or row, col
+     */
+    deleteRobotByCoords(coords) {
+        let index = null;
+        let robots = this.getRobots();
+        for(let i = 0; i < robots.length; i++) {
+
+            let robCoords = robots[i].getCoords();
+
+            if (robCoords.row === coords.row && robCoords.col === coords.col) {
+                index = i;
+            }
+        }
+
+        // i found the robot in the array
+        if (index !== null) {
+            this.#removeFromMap(robots[index].getCoords(), "2"); // remove the robot from the map
+
+            let arr_without_the_robot = robots.filter(function(robot){  // filter the array so that it doesnt contain the previous robot
+                return (robot != robots[index]);
+            });
+            this.setRobots(arr_without_the_robot); // replace robot w/ the array w/o our poor deleted friend
         }
     }
 
@@ -144,9 +169,18 @@ export class Controller {
      * @param {Robot} robot - the robot that will mvoe
      */
     #changeRobotPosition(robot) {
+        
+        //console.log(this.getRobots());
+        //if (!this.getRobots().includes(robot)) // if its not among the robots anymore, its been deleted mid-move, so just return;
+        //    return;
+
         let initCoords = robot.getCoords(); // init coords
         robot.move(this.getMapObj()); // calculate its next position
         let newCoords = robot.getCoords(); // new coords
+
+        if (initCoords == newCoords || initCoords == undefined || newCoords == undefined) { // if they match or arent valid, dont do anything
+            return;
+        }
 
         this.#removeFromMap(initCoords, "2"); // now, remove the robot from its old position
         this.#putIntoMap(newCoords, "2"); // and put it into a new place
