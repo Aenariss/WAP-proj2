@@ -33,6 +33,14 @@ export class Robot {
     }
 
     /**
+     * Getter for the ID
+     * @returns id - the ID of the robot
+     */
+    getId() {
+        return this.id;
+    }
+
+    /**
      * method to get robot's current coordinates
      * @returns {Object} coordinates as in {row, col}
      */

@@ -220,10 +220,17 @@ export class Map {
      * @param {Object} coords row, col
      */
     #checkCoordsValidity(coords) {
-        if (coords.row >= this.getHeight() || coords.row < 0 || coords.col < 0 || coords.col >= this.getWidth()) {
-            return false;
+
+        // this sometimes becomes undefined for some reason, lets fix this
+        let legitFlag = true;
+        try {
+            if (coords.row >= this.getHeight() || coords.row < 0 || coords.col < 0 || coords.col >= this.getWidth()) {
+                legitFlag = false;
+            }
         }
-        return true;
+        catch { return false; }
+
+        return legitFlag;
     }
 
     /**
@@ -286,8 +293,8 @@ export class Map {
         var south = 2;
         var west = 3;
 
-        if (coords.col >= this.getWidth()-1 || coords.col < 1 || coords.row < 1 || coords.row >= this.getHeight()-1) {
-            throw new Error("Invalid position to find possible moves from!");
+        if (!this.#checkCoordsValidity(coords)) {
+            return possibleMoves;
         }
 
         // north

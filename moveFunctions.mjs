@@ -48,7 +48,10 @@ export function randomWalk(map, coords, direction) {
         }
         // i didnt find a move in my direction
         if (new_dir === null && new_dirmove_flag === false) {
-            new_dir = poss_moves[Math.floor(Math.random() * poss_moves.length)] // pick oen direction at random
+            new_dir = poss_moves[Math.floor(Math.random() * poss_moves.length)]; // pick oen direction at random
+            if (poss_moves.length === 0) { // poor robot can't move and stays in place
+                return {"coords" : coords, "direction" : direction};
+            }
             direction = new_dir.direction;
             new_dir = new_dir.coords;
         }
