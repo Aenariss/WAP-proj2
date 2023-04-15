@@ -14,8 +14,7 @@ export class Controller {
     constructor() {
         this.map = null; // needs to be initialized separately
         this.robots = []; // empty array to store the robots
-        this.delay = 50; // default delay of 1 move per second
-        this.delay = 50; // default delay of 1 move per second
+        this.delay = 1000; // default delay of 1 move per second
     }
 
     /**
@@ -125,6 +124,10 @@ export class Controller {
         if (map.getCoordsObject(initCoords) !== "0") {
             throw new Error("Can't place a robot here, sorry.");
         }
+        let map = this.getMapObj();
+        if (map.getCoordsObject(initCoords) !== "0") {
+            throw new Error("Can't place a robot here, sorry.");
+        }
         let robot = new Robot(id, initCoords, controlFunc);
         this.#appendRobot(robot); // add the robot to the array
         this.#appendRobot(robot); // add the robot to the array
@@ -135,6 +138,7 @@ export class Controller {
      * Method to delete a robot by its ID
      * @param {int} id 
      */
+    deleteRobotById(id) {
     deleteRobotById(id) {
         let index = null;
         let robots = this.getRobots();
@@ -150,6 +154,33 @@ export class Controller {
         if (index !== null) {
             this.#removeFromMap(robots[index].coords);
             this.setRobots(robots.splice(index, 1)); // remove from array
+        }
+    }
+
+    /**
+     * Method to delete a robot by its ID
+     * @param {Object} coords -- coords in the form or row, col
+     */
+    deleteRobotByCoords(coords) {
+        let index = null;
+        let robots = this.getRobots();
+        for(let i = 0; i < robots.length; i++) {
+
+            let robCoords = robots[i].getCoords();
+
+            if (robCoords.row === coords.row && robCoords.col === coords.col) {
+                index = i;
+            }
+        }
+
+        // i found the robot in the array
+        if (index !== null) {
+            this.#removeFromMap(robots[index].getCoords(), "2"); // remove the robot from the map
+
+            let arr_without_the_robot = robots.filter(function(robot){  // filter the array so that it doesnt contain the previous robot
+                return (robot != robots[index]);
+            });
+            this.setRobots(arr_without_the_robot); // replace robot w/ the array w/o our poor deleted friend
         }
     }
 
@@ -191,6 +222,11 @@ export class Controller {
      * @param {Robot} robot - the robot that will mvoe
      */
     #changeRobotPosition(robot) {
+        
+        //console.log(this.getRobots());
+        //if (!this.getRobots().includes(robot)) // if its not among the robots anymore, its been deleted mid-move, so just return;
+        //    return;
+
         
         //console.log(this.getRobots());
         //if (!this.getRobots().includes(robot)) // if its not among the robots anymore, its been deleted mid-move, so just return;
