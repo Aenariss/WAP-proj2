@@ -5,7 +5,7 @@
 
 import { printMap } from './printMap.mjs';
 import { Controller } from "./controller.mjs"
-import { randomWalk, wallTurn } from "./moveFunctions.mjs"
+import { randomWalk, wallTurn, rightHand, leftHand, wallBounce } from "./moveFunctions.mjs"
 
 const controller = new Controller();
 
@@ -26,8 +26,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     createMapButton.addEventListener("click", function(){
         //TODO check width and height values
+        robots = 0;
         var width = document.getElementById('form_width').value;
         var height = document.getElementById('form_height').value;
+        // delete exzisting robots
+        controller.setRobots([]);
+
         if(check_values(width, height)) {
             controller.initMap(height,width);
             map = controller.getMapObj()
@@ -46,7 +50,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (controller.getRobots().length <= 30) { // hard limit on max number of robots because when there's too much of them, bad stuff happens
 
             if (controller.getMapObj().getCoordsObject(coords_obj) === "0") {  // Remember, Robot can only be placed on a path, not on another robot or in a wall
-                controller.addRobot(robots, coords_obj, wallTurn); // this throws an error if you can't place the robot on given coords
+                controller.addRobot(robots, coords_obj, wallBounce); // this throws an error if you can't place the robot on given coords
                 console.log("robot number " + robots + " x: " + coords.x + " y: " + coords.y)
                 robots++; // only increase robot ID count if we can
             }

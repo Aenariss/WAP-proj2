@@ -86,8 +86,14 @@ export function randomWalk(map, coords, direction) {
     return retVal;
 }
 
+/**
+ * Function to calculate where the robot will move next by following the direction he already moves in. If he hits a wall, he changes direction by random
+ * @param {Object} map - Object that represents the map
+ * @param {Object} coords - coordinates of the robot in the form of {row, col}
+ * @param {int} direction - integer representing which direction the robot is facing (0,1,2,3 for north,east,south,west)
+ * @returns {Object} {{row, col}, dir} which represent the new coordinates and direction
+ */
 export function wallTurn(map, coords, direction) {
-    let new_dir;
 
     if (direction === null) { // if I dont have a direction, I'll call the random walk to decide
         return randomWalk(map, coords, direction);
@@ -98,32 +104,137 @@ export function wallTurn(map, coords, direction) {
             return {"coords" : coords, "direction" : direction};
         if (poss_moves.length === 1) // if you can move only 1 way, well, pick it.
             return poss_moves[0];
-        let foundDirection = false;
         for (let move of poss_moves) {
             if (move.direction === direction) {
-               new_dir = move;
-               foundDirection = true;
-               return new_dir;
+               return move;
             }
         }
-        if (!foundDirection) { // i didnt find a move in my direction, means its time to change it.... pick anyone but the one you came from
-            let available_moves = [];
-            for (let move of poss_moves) { // find direction that go everywhere but the one you came from... eg. came from south -> if possible, east/west
-                if (isOdd(direction) && !isOdd(move.direction)) { // only add different kind of direction (eg. it was east/west -> only add north/south)
-                   available_moves.push(move);
-                }
-                else if (!isOdd(direction) && isOdd(move.direction)) { // do the same but it was north/south and I want east/west
-                    available_moves.push(move);
-                }
+        // i didnt find a move in my direction, means its time to change it.... pick anyone but the one you came from
+        let available_moves = [];
+        for (let move of poss_moves) { // find direction that go everywhere but the one you came from... eg. came from south -> if possible, east/west
+            if (isOdd(direction) && !isOdd(move.direction)) { // only add different kind of direction (eg. it was east/west -> only add north/south)
+                available_moves.push(move);
             }
-            // pick one from the available moves by random
-            return available_moves[Math.floor(Math.random() * available_moves.length)];
+            else if (!isOdd(direction) && isOdd(move.direction)) { // do the same but it was north/south and I want east/west
+                available_moves.push(move);
+            }
+        }
+        // pick one from the available moves by random
+        return available_moves[Math.floor(Math.random() * available_moves.length)];
+    }
+}
+
+/**
+ * Function to calculate where the robot will move next considering I want him to bounce between two walls
+ * @param {Object} map - Object that represents the map
+ * @param {Object} coords - coordinates of the robot in the form of {row, col}
+ * @param {int} direction - integer representing which direction the robot is facing (0,1,2,3 for north,east,south,west)
+ * @returns {Object} {{row, col}, dir} which represent the new coordinates and direction
+ */
+export function wallBounce(map, coords, direction) {
+    if (direction === null) { // if I dont have a direction, I'll call the random walk to decide
+        return randomWalk(map, coords, direction);
+    }
+    else {
+        let poss_moves = map.possibleMovesFrom(coords);
+        if (poss_moves.length === 0)
+            return {"coords" : coords, "direction" : direction};
+        if (poss_moves.length === 1) // if you can move only 1 way, well, pick it.
+            return poss_moves[0];
+        for (let move of poss_moves) {
+            if (move.direction === direction) {
+               return move;
+            }
+        }
+        for (let move of poss_moves) {
+            if (move.direction === (direction+2) % 4) { // choose the opposite direction - bounce
+               return move;
+            }
+        }
+    }
+}
+
+/**
+ * Function to calculate where the robot will move next using a left hand method - similar to the method above, but he will always go in a way he has a wall on his right side
+ * @param {Object} map - Object that represents the map
+ * @param {Object} coords - coordinates of the robot in the form of {row, col}
+ * @param {int} direction - integer representing which direction the robot is facing (0,1,2,3 for north,east,south,west)
+ * @returns {Object} {{row, col}, dir} which represent the new coordinates and direction
+ */
+export function leftHand(map, coords, direction) {
+
+    if (direction === null) { // if I dont have a direction, I'll call the random walk to decide
+        return randomWalk(map, coords, direction);
+    }
+    else {
+        let poss_moves = map.possibleMovesFrom(coords);
+        if (poss_moves.length === 0)
+            return {"coords" : coords, "direction" : direction};
+        if (poss_moves.length === 1) // if you can move only 1 way, well, pick it.
+            return poss_moves[0];
+
+        let availableOptions = [null, null, null];
+        for (let move of poss_moves) { // Example situation: >goes easts >hits a wall >goes south >refuses to elaborate further
+            // highst priority is the move to the right
+            if (direction === (move.direction+1) % 4) { // goes south (2) and the move direction is west (2+1%4, means 3), just as an example
+                availableOptions[0] = move;
+            } // second highest is following the direction
+            else if (move.direction === direction) {
+                availableOptions[1] = move;
+            }
+            // third is if he has nowhere else to go (except return, but i dont want that)
+            else if (direction === (move.direction+3) % 4) { // goes north, cant go west, so choose east
+                availableOptions[2] = move;
+            }
+        }
+        // go through options sequentially and return first that is not null
+        for (let option of availableOptions) {
+            if (option !== null)
+                return option;
         }
     }
 }
 
 
-// dalsi funkce bude, ze jde porad rovne dokud nenarazi v jeho smeru na prekazku... pak smer (nahodne?) meni
+/**
+ * Function to calculate where the robot will move next using a right hand method
+ * @param {Object} map - Object that represents the map
+ * @param {Object} coords - coordinates of the robot in the form of {row, col}
+ * @param {int} direction - integer representing which direction the robot is facing (0,1,2,3 for north,east,south,west)
+ * @returns {Object} {{row, col}, dir} which represent the new coordinates and direction
+ */
+export function rightHand(map, coords, direction) {
+    
+    if (direction === null) { // if I dont have a direction, I'll call the random walk to decide
+        return randomWalk(map, coords, direction);
+    }
+    else {
+        let poss_moves = map.possibleMovesFrom(coords);
+        if (poss_moves.length === 0)
+            return {"coords" : coords, "direction" : direction};
+        if (poss_moves.length === 1) // if you can move only 1 way, well, pick it.
+            return poss_moves[0];
 
-// dalsi 3 pohyby.... idk? jde porad nejak, dokud nenarazi na robota - pak se otaci a pokracuje smerem odkud prisel
-// rightHand move a leftHand move?
+        let availableOptions = [null, null, null];
+        for (let move of poss_moves) {
+            // highst priority is the move to the left
+            if ((direction+1) % 4 === move.direction) { // goes south (2) and the move direction is east (2, means 1+1%4), just as an example
+                availableOptions[0] = move;
+            } // second highest is following the direction
+            else if (move.direction === direction) {
+                availableOptions[1] = move;
+            }
+            // third is if he has nowhere else to go (except return, but i dont want that)
+            else if ((direction+3) % 4 === move.direction) { // goes north, cant go east, so choose west
+                availableOptions[2] = move;
+            }
+        }
+        // go through options sequentially and return first that is not null
+        for (let option of availableOptions) {
+            if (option !== null)
+                return option;
+        }
+    }
+}
+
+// posledni pohyb... napady?
