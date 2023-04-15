@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <script type="module" src="frontend.js"></script>
+  <div class="pageRow">
+    <div class="pageColumn"> 
+      <form>
+        <div>
+          <label>Width:</label>
+          <input id="form_width" value="21" name="width" type="number">
+        </div>
+        <div>
+          <label>Height:</label>
+          <input id="form_height" value="21" name="height" type="number">
+        </div>
+        <div>
+          <button type="button" id="createMapButton">Create map</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="pageColumn">
+      <canvas id="mapCanvas" style="border:2px solid #c3c3c3;">
+        The Canvas HTML5 element is not supported by your browser. 
+        Please run this page in a different browser.
+      </canvas>
+    </div>
+  </div>
+  
+  </body>
+
+</html>

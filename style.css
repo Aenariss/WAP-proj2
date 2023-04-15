@@ -1,0 +1,48 @@
+html, body {
+    height: 100%;
+}
+
+canvas {
+    height: auto;
+    width: auto;
+}
+
+.pageRow {
+    display: flex;
+    align-items: start;
+}
+  
+.pageColumn {
+    flex: auto;
+    padding: 50px;
+}
+
+form {
+    text-align: center;
+    margin-top: 60px;
+    font-size: larger;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+form div{
+    margin: 10px;
+}
+
+form label{
+    display: inline-block;
+    width: 65px;
+}
+
+form input{
+    max-width: 100px;
+    font-size: medium;
+    vertical-align: top;
+}
+
+form button{
+    font-size: medium;
+    padding: 7px;
+    border-radius: 10px;
+    background-color: cadetblue;
+}
+
