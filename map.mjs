@@ -15,7 +15,7 @@ export class Map {
      * @param {number} width  - The width of the map - min 1, max 50
      */
     constructor(height, width) {
-        if (height > 0 && height <= 50 && width > 0 && width <= 50) {
+        if (height > 2 && height <= 121 && width > 2 && width <= 121) {
             this.height = height;
             this.width = width;
             this.map = this.#generateMap(height, width);
