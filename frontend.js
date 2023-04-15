@@ -53,7 +53,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             else if (controller.getMapObj().getCoordsObject(coords_obj) === "2") { // you clicked on a robot! poor lad, lets delete him
                 controller.deleteRobotByCoords(coords_obj);
                 console.log("deleted robot on coords x: " + coords.x + " y: " + coords.y);
-                robots++; //incement ID anyway cuz why not
             }
             else {
                 console.log("Trying to do something we shouldn't aren't we");

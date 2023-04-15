@@ -70,7 +70,7 @@ export class Rectangle {
         let cellColor;
         let context = this.getContext();
 
-        if (map[row][col] === "0" || map[row][col] === "2" ) { //path is white
+        if (map[row][col] === "0") { //path is white
             cellColor = '#ffffff';
         }
         else if (map[row][col] === "1") { // wall is grey

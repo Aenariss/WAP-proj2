@@ -61,7 +61,7 @@ export class Circle {
         let cellSide = this.getCellSide();
 
         context.beginPath();
-        context.arc(row, col, cellSide/4, 0, (Math.PI*2))
+        context.arc((col*cellSide)+(cellSide/2), (row*cellSide)+(cellSide/2), cellSide/3, 0, (Math.PI*2))
         context.fillStyle = '#0000FF'
         context.fill()
     }
