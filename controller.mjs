@@ -14,7 +14,7 @@ export class Controller {
     constructor() {
         this.map = null; // needs to be initialized separately
         this.robots = []; // empty array to store the robots
-        this.delay = 1000; // default delay of 1 move per second
+        this.delay = 150; // default delay of 1 move per second
     }
 
     /**
