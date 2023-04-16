@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     background-color: #f7f8f2;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 canvas {
@@ -34,7 +35,6 @@ form {
     text-align: center;
     margin-top: 60px;
     font-size: larger;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 form div{
