@@ -1,10 +1,10 @@
 /**
  * A module that contains a move functions, meant to be used with the Robot class
- * @module circle
+ * @module robotIcon
  * @author: Zaneta Grossova <xgross11>
 */
 
-export class Circle {
+export class RobotIcon {
 
     constructor(row, col, cellSide, map, context){
         this.row = row
@@ -54,16 +54,18 @@ export class Circle {
         return this.map;
     }
 
-    drawCircle(){
+    drawRobot(){
         let context = this.getContext();
         let col = this.getCol();
         let row = this.getRow();
         let cellSide = this.getCellSide();
 
-        context.beginPath();
-        context.arc((col*cellSide)+(cellSide/2), (row*cellSide)+(cellSide/2), cellSide/3, 0, (Math.PI*2))
-        context.fillStyle = '#0000FF'
-        context.fill()
+        var img = new Image();
+        img.onload = function() {
+            context.drawImage(img, (col*cellSide)+1, (row*cellSide)+1, cellSide/1.1, cellSide/1.1); // +1 and /1.1. is just for correction size and placing in the labyrinth
+        }
+        img.src = "./frontend/robot-solid.svg";
+        
     }
 
 }

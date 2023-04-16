@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="static/style.css">
 </head>
 
@@ -10,6 +11,8 @@
   <script type="module" src="frontend/frontend.js"></script>
   <div class="pageRow">
     <div class="pageColumn"> 
+      <h1>Robot's Labyrinth</h1>
+      <h2>&#8826xfiala61&#8827, &#8826xgross11&#8827</h2>
       <form>
         <div>
           <label>Width:</label>
@@ -26,25 +29,21 @@
           <p id="mapStuffResponse"></p>
         </div>
         <div>
-          <button type="button" id="exportMapButton">Export Map</button>
-          <button type="button" id="loadMapButton">Load Map</button>
+          <button type="button" id="exportMapButton"><i class="fa fa-download"></i> Export Map</button>
+          <button type="button" id="loadMapButton"><i class="fa fa-upload"></i> Load Map</button>
         </div>
         <div>
+          <h2 id="canvasSign">Robots (Click in map to add one):</h2>
           <p id="delayResponse"></p>
-        </div>
-        <div>
-          Delay (ms):
+          <label>Delay (ms):</label>
           <input id="form_delay" value="500" name="delay" type="number">
         </div>
         <div>
-          <button type="button" id="pauseButton">Pause</button>
-          <button type="button" id="unpauseButton">Play</button>
+          <button type="button" id="pauseButton"><i class="fa fa-pause"></i> Pause</button>
+          <button type="button" id="unpauseButton"><i class="fa fa-play"></i> Play</button>
         </div>
         <div>
-          <button type="button" id="killButton">Delete all robots</button>
-        </div>
-        <div>
-          Robot movement function:
+          <label>Robots movement function:</label>
           <select id="movements">
             <option value="randomWalk" select="selected">Random</option>
             <option value="wallTurn">Turn at Wall</option>
@@ -52,6 +51,9 @@
             <option value="rightHand">Right Hand Method</option>
             <option value="leftHand">Left Hand Method</option>
           </select>
+        </div>
+        <div>
+          <button type="button" id="killButton"><i class="fa fa-trash"></i> Delete all robots</button>
         </div>
       </form>
     </div>

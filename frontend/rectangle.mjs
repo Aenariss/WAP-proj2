@@ -4,8 +4,6 @@
  * @author: Zaneta Grossova <xgross11>
 */
 
-import { Circle } from "../frontend/circle.mjs";
-
 export class Rectangle {
 
     constructor(row, col, cellSide, map, context) {
@@ -70,11 +68,11 @@ export class Rectangle {
         let cellColor;
         let context = this.getContext();
 
-        if (map[row][col] === "0") { //path is white
-            cellColor = '#ffffff';
+        if (map[row][col] === "0") { //path is green
+            cellColor = '#b6e69e';
         }
-        else if (map[row][col] === "1") { // wall is grey
-            cellColor = '#808080';
+        else if (map[row][col] === "1") { // wall is brown
+            cellColor = '#5d5546';
         }
         context.beginPath();
         context.fillStyle = cellColor;

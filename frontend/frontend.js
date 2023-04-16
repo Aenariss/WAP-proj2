@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         robots = 0;
         var width = document.getElementById('form_width').value;
         var height = document.getElementById('form_height').value;
-        // delete exzisting robots
+        // delete existing robots
         controller.deleteAllRobots();
         controller.setRobots([]);
 
