@@ -45,7 +45,8 @@ form label{
     display: inline-block;
     text-align: right;
     padding: 4px;
-    max-width: 300px;
+    padding-right: 8px;
+    min-width: 80px;
 }
 
 form input{
@@ -53,9 +54,9 @@ form input{
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
-    padding: 4px;
     border-color: #5d5546;
     vertical-align: top;
+    padding: 4px;
 }
 
 form button{
@@ -71,9 +72,6 @@ select {
     font-size: medium;
     background-color: white;
     padding: 20px;
-}
-
-select {
     border-color: #5d5546;
 }
 
