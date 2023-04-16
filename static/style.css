@@ -30,7 +30,7 @@ form div{
 
 form label{
     display: inline-block;
-    width: 65px;
+    width: 100px;
 }
 
 form input{
@@ -46,3 +46,16 @@ form button{
     background-color: cadetblue;
 }
 
+#pauseButton {
+    background-color: red;
+}
+
+#unpauseButton {
+    background-color: green;
+}
+
+#killButton {
+    background-color: rgb(116, 6, 6);
+    font-weight: bold;
+    color: white;
+}

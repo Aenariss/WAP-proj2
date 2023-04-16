@@ -26,6 +26,22 @@ export class Map {
     }
 
     /**
+     * Setter for the width;
+     * @param {int} width - new width
+     */
+    setWidth(width) {
+        this.width = width;
+    }
+
+    /**
+     * Setter for the height;
+     * @param {int} height - new height
+     */
+    setHeight(height) {
+        this.height = height;
+    }
+
+    /**
      * Function to mark all cells in a map as visited
      * @param {number} height - height  of the map
      * @param {number} width - width of the map
@@ -216,6 +232,28 @@ export class Map {
     }
 
     /**
+     * Method to get a clean map, ie without the robots present
+     * @returns {Array} 2D array representing the map
+     */
+    getClearMap() {
+        let map = this.getMap();
+        let new_map = [];
+        for (let row = 0; row < this.getHeight(); row++) {
+            let col_members = [];
+            for (let col = 0; col < this.getWidth(); col++) {
+                if (map[row][col] === "2") { // if there's a robot, replace it with path (let's suppose the robot is ON a path, not in some bugged wall or something)
+                    col_members.push("0");
+                }
+                else {
+                    col_members.push(map[row][col]);
+                }
+            }
+            new_map.push(col_members);
+        }
+        return new_map;
+    }
+
+    /**
      * Function to check if given coords are in the map
      * @param {Object} coords row, col
      */
@@ -307,17 +345,5 @@ export class Map {
         if (this.getCoordsObject({"row" : coords.row, "col": coords.col-1}) === "0")  possibleMoves.push({"coords" : {"row" : coords.row, "col": coords.col-1}, "direction" : west});
 
         return possibleMoves;
-    }
-
-    /**
-     * Debug function
-     */
-    #tmpPrintMap(map, height, width) {
-        for (let row_num = 0; row_num < height; row_num++) {
-            for (let col_num = 0; col_num < width; col_num++) {
-                process.stdout.write(map[row_num][col_num].toString());
-            }
-            process.stdout.write("\n");
-        }
     }
 }

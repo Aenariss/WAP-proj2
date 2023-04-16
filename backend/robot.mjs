@@ -27,17 +27,33 @@ export class Robot {
      * @param {Object} map - Map object representing the world, mean to be used with the one from map.mjs
      */
     move(map) {
-        let new_coords = this.moveFunction(map, this.coords, this.direction);
-        this.coords = new_coords.coords;
-        this.direction = new_coords.direction;
+        let old_coords = this.getCoords();
+        let old_dir = this.getDirection();
+        let new_coords = this.moveFunction(map, old_coords, old_dir);
+        try {
+            this.coords = new_coords.coords;
+            this.direction = new_coords.direction;
+        }
+        catch {
+            this.coords = old_coords;
+            this.direction = old_dir;
+        }
     }
 
     /**
      * Getter for the ID
-     * @returns id - the ID of the robot
+     * @returns {int} the ID of the robot
      */
     getId() {
         return this.id;
+    }
+
+    /**
+     * Getter for the direction
+     * @returns {int} Direction the robot is facing
+     */
+    getDirection() {
+        return this.direction;
     }
 
     /**

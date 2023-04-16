@@ -4,7 +4,7 @@
  * @author: Zaneta Grossova <xgross11>
 */
 
-import { Circle } from "./circle.mjs";
+import { Circle } from "../frontend/circle.mjs";
 
 export class Rectangle {
 
