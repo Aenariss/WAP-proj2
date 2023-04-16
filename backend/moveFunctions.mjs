@@ -5,11 +5,7 @@
  * 
 */
 
-var north = 0;
-var east = 1;
-var south = 2;
-var west = 3;
-
+// North is 0, East is 1, South 2, West 3... Just for clarification how the algorithms work
 
 /**
  * Function to calculate a direction if it wasnt specified yet

@@ -11,7 +11,13 @@ export function printMap(height, width, canvas, context, controller) {
 
     let map = controller.getMapObj().getMap();
 
-    const cellSide = canvas.width/width;
+    let cellSide;
+    if (width >= height) {
+        cellSide = canvas.width/width;
+    }
+    else {
+        cellSide = canvas.height/height;  
+    }
 
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
