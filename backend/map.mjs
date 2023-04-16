@@ -303,22 +303,6 @@ export class Map {
     }
 
     /**
-     * Method to print the ascii representation of the map
-     */
-    printMap() {
-        let map = this.getMap();
-        let height = this.getHeight();
-        let width = this.getWidth();
-        for (let row_num = 0; row_num < height; row_num++) {
-            for (let col_num = 0; col_num < width; col_num++) {
-                process.stdout.write(map[row_num][col_num].toString());
-            }
-            process.stdout.write("\n");
-        }
-        process.stdout.write("\n");
-    }
-
-    /**
      * Method to find moves possible from a given coordinates
      * @param {Object} coords - coords in the form of {row, col}
      * @returns {Array} Array containig coordinates with possible moves and the direction they aim into
