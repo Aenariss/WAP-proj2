@@ -52,10 +52,10 @@ export function randomWalk(map, coords, direction) {
     }
     else { // if he is, there will be a small chance he changes the direction
         for (let move of poss_moves) {
-            // if he can move towards the direction he already is moving, there is 25% cchance he changes that direction
+            // if he can move towards the direction he already is moving, there is 35% cchance he changes that direction
             if (move.direction === direction) {
                 let randomRes = Math.floor(Math.random() * 100);
-                if (randomRes >= 25) {
+                if (randomRes >= 35) {
                     new_dir = move.coords;
                     break;
                 }
@@ -346,5 +346,3 @@ export function rightHand(map, coords, direction) {
         }
     }
 }
-
-// posledni pohyb... napady?

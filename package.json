@@ -2,10 +2,10 @@
     "name": "wap2",
     "version": "1.0.0",
     "description": "A collection of modules that serve as backend of the WAP 2 project",
-    "main": "map.mjs",
+    "main": "controller.mjs",
     "type": "module",
     "author": "Vojtěch Fiala",
     "dependencies": {
-      "jsdoc": "^4.0.2"
+        "jsdoc": "^4.0.2"
     }
-  }
+}

@@ -1,11 +1,11 @@
 /**
  * Module that exports a class that acts as a controller that controls the map and robots withing - part of WAP Project 2
- * @module controller
- * Author: Vojtech Fiala
+ * @module Controller
+ * @author: Vojtech Fiala
  */
 
-import { Map } from "./map.mjs";
-import { Robot } from "./robot.mjs"
+import { Map } from "../backend/map.mjs";
+import { Robot } from "../backend/robot.mjs"
 
 export class Controller {
     /**
@@ -14,7 +14,7 @@ export class Controller {
     constructor() {
         this.map = null; // needs to be initialized separately
         this.robots = []; // empty array to store the robots
-        this.delay = 150; // default delay of 1 move per second
+        this.delay = 500; // default delay of 1 move per second
     }
 
     /**
@@ -152,8 +152,12 @@ export class Controller {
         }
         // i found the robot in the array
         if (index !== null) {
-            this.#removeFromMap(robots[index].coords);
-            this.setRobots(robots.splice(index, 1)); // remove from array
+            this.#removeFromMap(robots[index].getCoords(), "2"); // remove the robot from the map
+
+            let arr_without_the_robot = robots.filter(function(robot){  // filter the array so that it doesnt contain the previous robot
+                return (robot != robots[index]);
+            });
+            this.setRobots(arr_without_the_robot); // replace robot w/ the array w/o our poor deleted friend
         }
     }
 
@@ -181,6 +185,16 @@ export class Controller {
                 return (robot != robots[index]);
             });
             this.setRobots(arr_without_the_robot); // replace robot w/ the array w/o our poor deleted friend
+        }
+    }
+
+    /**
+     * Method to delete all known robots
+     */
+    deleteAllRobots() {
+        let robs = this.getRobots();
+        for (let rob of robs) {
+            this.deleteRobotById(rob.id);
         }
     }
 
@@ -222,10 +236,6 @@ export class Controller {
      * @param {Robot} robot - the robot that will mvoe
      */
     #changeRobotPosition(robot) {
-        
-        //console.log(this.getRobots());
-        //if (!this.getRobots().includes(robot)) // if its not among the robots anymore, its been deleted mid-move, so just return;
-        //    return;
 
         
         //console.log(this.getRobots());
@@ -255,6 +265,50 @@ export class Controller {
         for (let robot of robots) {
             this.#changeRobotPosition(robot);
         }
+    }
+
+    /**
+     * Method to export a map and save it in local storage
+     */
+    exportMap() {
+        if (this.getMapObj() == null) { // if its unitialized, do nothing
+            return false;
+        }
+        localStorage.setItem("map", this.getMapObj().getClearMap());
+        localStorage.setItem("width", this.getMapObj().getWidth());
+        localStorage.setItem("height", this.getMapObj().getHeight());
+        return true;
+    }
+
+    /**
+     * Method to load a map from the local storage
+     */
+    loadMap() {
+        let storedMap = localStorage.map.replaceAll(",", ""); // load map from web storage and cuz its a string, replace ',' with nothing
+        let storedHeight = parseInt(localStorage.height);
+        let storedWidth = parseInt(localStorage.width);
+
+        const new_map = function() {
+            let tmp_map = [];
+            for (let row = 0; row < storedHeight; row++) {
+                let tmp_col = []
+                for (let col = 0; col < storedWidth; col++) {
+                    tmp_col.push(storedMap[row*storedWidth + col]);
+                }
+                tmp_map.push(tmp_col);
+            }
+            return tmp_map;
+        }();
+
+        if (this.getMapObj() == null) {// not initialized yet
+            // maybe check validity here? Or I cant just suppose its ok
+            this.initMap(storedHeight, storedWidth);
+        }
+        else { // else just set the width & height
+            this.getMapObj().setWidth(storedWidth);
+            this.getMapObj().setHeight(storedHeight);
+        }
+        this.getMapObj().updateMap(new_map); // set the map itself
     }
 
 }

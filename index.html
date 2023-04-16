@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+
+  <script type="module" src="frontend/frontend.js"></script>
+  <div class="pageRow">
+    <div class="pageColumn"> 
+      <form>
+        <div>
+          <label>Width:</label>
+          <input id="form_width" value="21" name="width" type="number">
+        </div>
+        <div>
+          <label>Height:</label>
+          <input id="form_height" value="21" name="height" type="number">
+        </div>
+        <div>
+          <button type="button" id="createMapButton">Create map</button>
+        </div>
+        <div>
+          <p id="mapStuffResponse"></p>
+        </div>
+        <div>
+          <button type="button" id="exportMapButton">Export Map</button>
+          <button type="button" id="loadMapButton">Load Map</button>
+        </div>
+        <div>
+          <p id="delayResponse"></p>
+        </div>
+        <div>
+          Delay (ms):
+          <input id="form_delay" value="500" name="delay" type="number">
+        </div>
+        <div>
+          <button type="button" id="pauseButton">Pause</button>
+          <button type="button" id="unpauseButton">Play</button>
+        </div>
+        <div>
+          <button type="button" id="killButton">Delete all robots</button>
+        </div>
+        <div>
+          Robot movement function:
+          <select id="movements">
+            <option value="randomWalk" select="selected">Random</option>
+            <option value="wallTurn">Turn at Wall</option>
+            <option value="wallBounce">Bounce between walls</option>
+            <option value="rightHand">Right Hand Method</option>
+            <option value="leftHand">Left Hand Method</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="pageColumn">
+      <canvas id="mapCanvas" style="border:2px solid #c3c3c3;">
+        The Canvas HTML5 element is not supported by your browser. 
+        Please run this page in a different browser.
+      </canvas>
+    </div>
+  </div>
+  
+  </body>
+
+</html>

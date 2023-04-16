@@ -4,8 +4,8 @@
  * @author: Zaneta Grossova <xgross11>
 */
 
-import { Circle } from "./circle.mjs";
-import { Rectangle } from "./rectangle.mjs"
+import { Circle } from "../frontend/circle.mjs";
+import { Rectangle } from "../frontend/rectangle.mjs"
 
 export function printMap(height, width, canvas, context, controller) {
 
