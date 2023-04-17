@@ -1,3 +1,8 @@
+/**
+ * Style sheet for index.html
+ * @author: Zaneta Grossova <xgross11>
+*/
+
 html, body {
     height: 100%;
     background-color: #f7f8f2;
@@ -7,7 +12,9 @@ html, body {
 canvas {
     height: auto;
     width: auto;
-    margin-top: 20px;
+    margin-top: 15px;
+    border: none;
+    outline: none;
 }
 
 .pageRow {
@@ -17,7 +24,9 @@ canvas {
   
 .pageColumn {
     flex: auto;
-    padding: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
 }
 
 h1 {

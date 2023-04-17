@@ -1,5 +1,5 @@
 /**
- * Frontend control functions
+ * Frontend controller
  * @author: Zaneta Grossova <xgross11>, Vojtech Fiala <xfiala61>
  */
 
@@ -29,11 +29,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let movementOptions = document.getElementById("movements");
 
     // dynamic canvas size based on size of the screen
-    map_canvas.width  = window.innerHeight/1.2;
-    map_canvas.height = window.innerHeight/1.2;
+    map_canvas.width  = window.innerHeight/1.15;
+    map_canvas.height = window.innerHeight/1.15;
 
     let robots = 0;
 
+    //listener for button for creating map
     createMapButton.addEventListener("click", function(){
         remove_messages();
         robots = 0;
@@ -48,10 +49,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             controller.initMap(height,width);
             map = controller.getMapObj()
             printMap(height, width, map_canvas, map_canvas_context, controller);
+            setCanvasSize(width, height);
         }
     });
 
-    // listen ot pause button click
+    // listenen to pause button click
     pauseButton.addEventListener("click", () => {
         pauseFlag = true;
         controller.setDelay(86400); // pause = wait 1 day, smart innit
@@ -66,7 +68,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    // listen to kill button click
+    // listen to kill all robots button click
     killButton.addEventListener("click", () => {
         robots = 0;
         controller.deleteAllRobots();
@@ -79,13 +81,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (check_delay(parseInt(delay.value))) { // delay is valid
             document.getElementById("delayResponse").innerHTML = "Delay set!";
             controller.setDelay(delay.value);
+            setTimeout(remove_messages, 3000);
         }
         else { // delay is invalid
             document.getElementById("delayResponse").innerHTML = "Invalid delay value Choose between 50-5000!";
+            setTimeout(remove_messages, 3000);
         }
     });
 
-    // listen to change of delay value
+    // listener to change of delay value
     movementOptions.addEventListener("change", () => {
         remove_messages();
         let selected = movementOptions.value;
@@ -101,28 +105,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
             moveMethod = randomWalk;
     });
 
-    // listen to export map button click
+    // listener to export map button click
     exportMapButton.addEventListener("click", () => {
-        remove_messages();
         let res = controller.exportMap();
-        if (res) // success exporting
+        if (res){ // success exporting
             document.getElementById("mapStuffResponse").innerHTML = "Map has been successfully exported!";
-        else  // error exporting
+            setTimeout(remove_messages, 3000);
+        }
+        else{  // error exporting
             document.getElementById("mapStuffResponse").innerHTML = "Error while exporting the map! Please initialize the map first!";
+            setTimeout(remove_messages, 3000);
+        }
     });
 
-    // listne to load map button click
+    // listener to load map button click
     loadMapButton.addEventListener("click", () => {
-        remove_messages();
         robots = 0;
         controller.setRobots([]);
         controller.loadMap();
         map = controller.getMapObj();
         printMap(controller.getMapObj().getHeight(), controller.getMapObj().getWidth(), map_canvas, map_canvas_context, controller);
         document.getElementById("mapStuffResponse").innerHTML = "Map has been successfully loaded!";
+        setTimeout(remove_messages, 3000);
     });
 
-    // listen for mouse down events fired on the canvas
+    // listener for mouse down events fired on the canvas
     map_canvas.addEventListener('mousedown', function(e) { 
         if (map == null) { return; } // if map is not initialized, return
         remove_messages();
@@ -130,8 +137,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const x = e.clientX - canvasBound.left
         const y = e.clientY - canvasBound.top
 
-        let coords = getMapCoordinates(x, y, map_canvas, controller.getMapObj().getWidth());
-        let coords_obj = {"row":coords.y, "col":coords.x};
+        let coords = getMapCoordinates(x, y);
+        let coords_obj = {"row":coords.row, "col":coords.column};
 
         if (controller.getRobots().length <= 30) { // hard limit on max number of robots because when there's too much of them, bad stuff happens
 
@@ -156,11 +163,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         
     });
 
-    // listener for resizing the map
+    // listens to resizing of the screen to dynamically resize canvas
     window.addEventListener("resize", function() {
-        map_canvas.width  = window.innerHeight/1.2;
-        map_canvas.height = window.innerHeight/1.2;
-
+        map_canvas.width  = window.innerHeight/1.15;
+        map_canvas.height = window.innerHeight/1.15;
+        setCanvasSize(map.width, map.height);
         printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
     })
     
@@ -175,10 +182,10 @@ function remove_messages() {
 }
 
 /**
- * Function to check if width and height of the map seem ok
+ * Function to check if width and height of the map seems ok
  * @param {int} width - Width of the map
  * @param {int} height - Height of hte map
- * @returns 
+ * @returns {bool} true if given values are ok, false if not
  */
 function check_values(width, height) {
     if(width % 2 === 1 && height % 2 === 1 && width <= 121 && width >= 3 && height <= 121 && height >= 3) 
@@ -198,12 +205,43 @@ function check_delay(delay) {
     return (delay >= 50 && delay <= 5000);
 }
 
-function getMapCoordinates(mouseX, mouseY, map_canvas, width) {
-    let x = mouseX/(map_canvas.width/width)|0;
-    let y = mouseY/(map_canvas.width/width)|0;
-    return {x, y};
+/**
+ * Function to compute given mouse click coordinates to column and row indexes
+ * @param {int} mouseX x coordinate of mouse click
+ * @param {int} mouseY y coordinate of mouse click
+ * @returns {Object} Object with row and col coordinates of mouse click
+ */
+function getMapCoordinates(mouseX, mouseY) {
+    let column = mouseX/(map_canvas.width/map.width)|0;
+    let row = mouseY/(map_canvas.height/map.height)|0;
+    return {column, row};
 }
 
+/**
+ * Function to compute given mouse click coordinates to column and row indexes
+ * @param {int} width width of map inputted by user
+ * @param {int} height height of map inputted by user
+ */
+function setCanvasSize(width, height) {
+    map_canvas.width  = window.innerHeight/1.15;
+    map_canvas.height = window.innerHeight/1.15;
+    const cellWidth = map_canvas.width/width;
+    const cellHeight = map_canvas.height/height;
+    let cellSize = 0;
+
+    if(cellHeight > cellWidth) {
+        cellSize = cellWidth;
+    } else {
+        cellSize = cellHeight;
+    }
+
+    map_canvas.width  = cellSize * width;
+    map_canvas.height = cellSize * height;
+}
+
+/**
+ * Callback function for timeout, that manage to periodically refresh map
+ */
 function timeOutCallback() {
     if (map !== null) {
         controller.doRobotMovement(); 

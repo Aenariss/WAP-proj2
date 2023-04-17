@@ -1,67 +1,26 @@
 /**
- * A module that contains a move functions, meant to be used with the Robot class
+ * A module that contains a Rectangle class
  * @module rectangle
  * @author: Zaneta Grossova <xgross11>
 */
 
-export class Rectangle {
+import { CanvasObject } from "./canvasObject.mjs";
 
-    constructor(row, col, cellSide, map, context) {
-        this.row = row;
-        this.cellSide = cellSide;
-        this.col = col;
-        this.map = map;
-        this.context = context;
-    }
-    
-    /**
-     * Getter for the col
-     * @returns {int} a column index
-     */
-    getCol() {
-        return this.col;
-    }
+/**
+ * Class representing a Rectangle for printing on canvas
+ */
+export class Rectangle extends CanvasObject {
 
     /**
-     * Getter for the row
-     * @returns {int} a row index
+     * Function to draw rectangle on canvas
      */
-    getRow() {
-        return this.row;
-    }
-
-    /**
-     * Getter for the context
-     * @returns {Object} a given context
-     */
-    getContext() {
-        return this.context;
-    }
-
-    /**
-     * Getter for the cellSide
-     * @returns {int} size of the cell side
-     */
-    getCellSide() {
-        return this.cellSide;
-    }
-
-    /**
-     * Getter for the map
-     * @returns {Array} a map array
-     */
-    getMap() {
-        return this.map;
-    }
-
     drawRectangle() {
-
         let row = this.getRow();
         let col = this.getCol();
-        let cellSide = this.getCellSide();
+        let cellSize = this.getCellSide();
 
-        let x = col * cellSide;
-        let y = row * cellSide;
+        let x = col * cellSize;
+        let y = row * cellSize;
 
         let map = this.getMap();
             
@@ -76,7 +35,7 @@ export class Rectangle {
         }
         context.beginPath();
         context.fillStyle = cellColor;
-        context.fillRect(x, y, cellSide, cellSide); 
+        context.fillRect(x, y, cellSize, cellSize); 
  
     }
 
