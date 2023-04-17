@@ -24,7 +24,7 @@ export class RobotIcon extends CanvasObject {
         img.onload = function() {
             context.drawImage(img, (col*cellSide)+1, (row*cellSide)+1, cellSide/1.15, cellSide/1.15); // +1 and /1.1. is just for correction size and placing in the labyrinth
         }
-        img.src = "./graphics/robot-solid.svg";
+        img.src = "./static/robot-solid.svg";
         
     }
 
