@@ -49,6 +49,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             controller.initMap(height,width);
             map = controller.getMapObj()
             printMap(height, width, map_canvas, map_canvas_context, controller);
+            setCanvasSize(width, height);
         }
     });
 
@@ -166,8 +167,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     window.addEventListener("resize", function() {
         map_canvas.width  = window.innerHeight/1.2;
         map_canvas.height = window.innerHeight/1.2;
-
         printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
+        setCanvasSize(map.width, map.height);
     })
     
 })
@@ -214,6 +215,27 @@ function getMapCoordinates(mouseX, mouseY) {
     let column = mouseX/(map_canvas.width/map.width)|0;
     let row = mouseY/(map_canvas.height/map.height)|0;
     return {column, row};
+}
+
+/**
+ * Function to compute given mouse click coordinates to column and row indexes
+ * @param {int} inputWidht x coordinate of mouse click
+ * @param {int} inputHeight y coordinate of mouse click
+ * @returns {Object} Object with row and col coordinates of mouse click
+ */
+function setCanvasSize(width, height) {
+    const cellWidth = map_canvas.width/width;
+    const cellHeight = map_canvas.height/height;
+    let cellSize = 0;
+
+    if(cellHeight > cellWidth) {
+        cellSize = cellWidth;
+    } else {
+        cellSize = cellHeight;
+    }
+
+    map_canvas.width  = cellSize * width;
+    map_canvas.height = cellSize * height;
 }
 
 /**

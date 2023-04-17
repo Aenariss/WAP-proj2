@@ -18,19 +18,11 @@ export class RobotIcon extends CanvasObject {
         let context = this.getContext();
         let col = this.getCol();
         let row = this.getRow();
-        let cellWidth = this.getCellWidth();
-        let cellHeight = this.getCellHeight();
-        let robotSize;
-        
-        if(cellHeight > cellWidth) {
-            robotSize = cellWidth;
-        } else {
-            robotSize = cellHeight;
-        }
+        let cellSide = this.getCellSide();
 
         var img = new Image();
         img.onload = function() {
-            context.drawImage(img, (col*cellWidth)+1, (row*cellHeight)+1, robotSize/1.15, robotSize/1.15); // +1 and /1.1. is just for correction size and placing in the labyrinth
+            context.drawImage(img, (col*cellSide)+1, (row*cellSide)+1, cellSide/1.15, cellSide/1.15); // +1 and /1.1. is just for correction size and placing in the labyrinth
         }
         img.src = "./graphics/robot-solid.svg";
         

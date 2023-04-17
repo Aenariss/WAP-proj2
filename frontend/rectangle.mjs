@@ -6,6 +6,9 @@
 
 import { CanvasObject } from "./canvasObject.mjs";
 
+/**
+ * Class representing a Rectangle for printing on canvas
+ */
 export class Rectangle extends CanvasObject {
 
     /**
@@ -14,11 +17,10 @@ export class Rectangle extends CanvasObject {
     drawRectangle() {
         let row = this.getRow();
         let col = this.getCol();
-        let cellWidth = this.getCellWidth();
-        let cellHeight = this.getCellHeight();
+        let cellSize = this.getCellSide();
 
-        let x = col * cellWidth;
-        let y = row * cellHeight;
+        let x = col * cellSize;
+        let y = row * cellSize;
 
         let map = this.getMap();
             
@@ -33,7 +35,7 @@ export class Rectangle extends CanvasObject {
         }
         context.beginPath();
         context.fillStyle = cellColor;
-        context.fillRect(x, y, cellWidth, cellHeight); 
+        context.fillRect(x, y, cellSize, cellSize); 
  
     }
 

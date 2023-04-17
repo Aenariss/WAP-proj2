@@ -8,7 +8,7 @@ import { RobotIcon } from "./robotIcon.mjs";
 import { Rectangle } from "../frontend/rectangle.mjs"
 
 /**
- * Function to calculate a direction if it wasnt specified yet
+ * Function to print map on canvas
  * @param {number} height - height of map
  * @param {number} width - width of map
  * @param {Object} canvas - canvas object
@@ -22,13 +22,21 @@ export function printMap(height, width, canvas, context, controller) {
     const cellWidth = canvas.width/width;
     const cellHeight = canvas.height/height;
 
+    let cellSize = 0;
+
+    if(cellHeight > cellWidth) {
+        cellSize = cellWidth;
+    } else {
+        cellSize = cellHeight;
+    }
+
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
             if (map[row][col] === "2") { //robot
-                let robot = new RobotIcon(row, col, cellHeight, cellWidth, map, context);
+                let robot = new RobotIcon(row, col, cellSize, map, context);
                 robot.drawRobot();
             } else {
-                let rect = new Rectangle(row, col, cellHeight, cellWidth, map, context);
+                let rect = new Rectangle(row, col, cellSize, map, context);
             rect.drawRectangle();
             }
             
