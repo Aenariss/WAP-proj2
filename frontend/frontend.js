@@ -223,6 +223,8 @@ function getMapCoordinates(mouseX, mouseY) {
  * @param {int} height height of map inputted by user
  */
 function setCanvasSize(width, height) {
+    map_canvas.width  = window.innerHeight/1.15;
+    map_canvas.height = window.innerHeight/1.15;
     const cellWidth = map_canvas.width/width;
     const cellHeight = map_canvas.height/height;
     let cellSize = 0;
