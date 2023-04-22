@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    // listener to change of delay value
+    // listener to change movement function
     movementOptions.addEventListener("change", () => {
         remove_messages();
         let selected = movementOptions.value;
@@ -144,12 +144,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (controller.getMapObj().getCoordsObject(coords_obj) === "0") {  // Remember, Robot can only be placed on a path, not on another robot or in a wall
                 controller.addRobot(robots, coords_obj, moveMethod); // this throws an error if you can't place the robot on given coords
-                console.log("robot number " + robots + " x: " + coords.x + " y: " + coords.y)
+                console.log("robot number " + robots + " x: " + coords.row + " y: " + coords.column)
                 robots++; // only increase robot ID count if we can
             }
             else if (controller.getMapObj().getCoordsObject(coords_obj) === "2") { // you clicked on a robot! poor lad, lets delete him
                 controller.deleteRobotByCoords(coords_obj);
-                console.log("deleted robot on coords x: " + coords.x + " y: " + coords.y);
+                console.log("deleted robot on coords x: " + coords.row + " y: " + coords.cplumn);
                 robots++; //incement ID anyway cuz why not
             }
             else {
