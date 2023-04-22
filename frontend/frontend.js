@@ -122,11 +122,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
     loadMapButton.addEventListener("click", () => {
         robots = 0;
         controller.setRobots([]);
-        controller.loadMap();
-        map = controller.getMapObj();
-        printMap(controller.getMapObj().getHeight(), controller.getMapObj().getWidth(), map_canvas, map_canvas_context, controller);
-        document.getElementById("mapStuffResponse").innerHTML = "Map has been successfully loaded!";
-        setTimeout(remove_messages, 3000);
+        let res = controller.loadMap();
+        if (res === false) {
+            document.getElementById("mapStuffResponse").innerHTML = "Error while loading the map! No map saved!";
+            setTimeout(remove_messages, 3000);
+        }
+        else {
+            map = controller.getMapObj();
+            map_canvas_context.clearRect(0, 0, map_canvas.width, map_canvas.height); // clear the original canvas before drawing a new one
+            printMap(controller.getMapObj().getHeight(), controller.getMapObj().getWidth(), map_canvas, map_canvas_context, controller);
+            document.getElementById("mapStuffResponse").innerHTML = "Map has been successfully loaded!";
+            setTimeout(remove_messages, 3000);
+            setCanvasSize(controller.getMapObj().getWidth(), controller.getMapObj().getHeight());
+        }
     });
 
     // listener for mouse down events fired on the canvas
@@ -144,12 +152,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (controller.getMapObj().getCoordsObject(coords_obj) === "0") {  // Remember, Robot can only be placed on a path, not on another robot or in a wall
                 controller.addRobot(robots, coords_obj, moveMethod); // this throws an error if you can't place the robot on given coords
-                console.log("robot number " + robots + " x: " + coords.row + " y: " + coords.column)
+                console.log("robot number " + robots + " x: " + coords.row + " y: " + coords.column);
                 robots++; // only increase robot ID count if we can
             }
             else if (controller.getMapObj().getCoordsObject(coords_obj) === "2") { // you clicked on a robot! poor lad, lets delete him
                 controller.deleteRobotByCoords(coords_obj);
-                console.log("deleted robot on coords x: " + coords.row + " y: " + coords.cplumn);
+                console.log("deleted robot on coords x: " + coords.row + " y: " + coords.column);
                 robots++; //incement ID anyway cuz why not
             }
             else {
@@ -165,13 +173,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // listens to resizing of the screen to dynamically resize canvas
     window.addEventListener("resize", function() {
-        map_canvas.width  = window.innerHeight/1.15;
-        map_canvas.height = window.innerHeight/1.15;
-        setCanvasSize(map.width, map.height);
-        printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
-    })
+        if (map != null) {
+            map_canvas.width  = window.innerHeight/1.15;
+            map_canvas.height = window.innerHeight/1.15;
+            setCanvasSize(map.width, map.height);
+            printMap(map.height, map.width, map_canvas, map_canvas_context, controller);
+        }
+    });
     
-})
+});
 
 /**
  * Function to remove written info messages
@@ -214,7 +224,7 @@ function check_delay(delay) {
 function getMapCoordinates(mouseX, mouseY) {
     let column = mouseX/(map_canvas.width/map.width)|0;
     let row = mouseY/(map_canvas.height/map.height)|0;
-    return {column, row};
+    return {"column" : column, "row" : row};
 }
 
 /**

@@ -1,2 +1,2 @@
 npm install jsdoc
-node ./node_modules/jsdoc/jsdoc.js -c jsdoc.conf backend/controller.mjs backend/map.mjs backend/moveFunctions.mjs backend/robot.mjs frontend/robotIcon.mjs frontend/rectangle.mjs frontend/printMap.mjs README.md -d doc
+node ./node_modules/jsdoc/jsdoc.js -c jsdoc.conf backend/controller.mjs backend/map.mjs backend/moveFunctions.mjs backend/robot.mjs frontend/canvasObject.mjs frontend/robotIcon.mjs frontend/rectangle.mjs frontend/printMap.mjs README.md -d doc

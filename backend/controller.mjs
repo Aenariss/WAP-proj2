@@ -225,6 +225,10 @@ export class Controller {
      * Method to load a map from the local storage
      */
     loadMap() {
+        let tmpMap = localStorage.map;
+        if (tmpMap == null) {
+            return false;
+        }
         let storedMap = localStorage.map.replaceAll(",", ""); // load map from web storage and cuz its a string, replace ',' with nothing
         let storedHeight = parseInt(localStorage.height);
         let storedWidth = parseInt(localStorage.width);
