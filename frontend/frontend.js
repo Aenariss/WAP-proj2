@@ -84,7 +84,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             setTimeout(remove_messages, 3000);
         }
         else { // delay is invalid
-            document.getElementById("delayResponse").innerHTML = "Invalid delay value Choose between 50-5000!";
+            document.getElementById("delayResponse").innerHTML = "Invalid delay value! Choose between 50-5000!";
             setTimeout(remove_messages, 3000);
         }
     });

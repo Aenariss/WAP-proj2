@@ -10,55 +10,63 @@
 
   <script type="module" src="frontend/frontend.js"></script>
   <div class="pageRow">
-    <div class="pageColumn"> 
-      <h1>Robot's Labyrinth</h1>
-      <h2>&#8826xfiala61&#8827, &#8826xgross11&#8827</h2>
-      <form>
-        <div>
-          <label>Width:</label>
-          <input id="form_width" value="21" name="width" type="number">
+    <div class="pageColumn" id="menuColumn"> 
+      <div class="menuHeader">
+        <h1>Robot's Labyrinth</h1>
+        <h2><i>&#8826xfiala61&#8827, &#8826xgross11&#8827</i></h2>
+      </div>
+        <div class="settingsContainer">
+          <div class="mapSettings">
+            <div>
+              <h2 id="mapSign">Map Settings</h2>
+            </div>
+            <div class="inpDiv">
+              <label for="form_width">Width:</label>
+              <input id="form_width" value="21" name="width" type="number">
+            </div>
+            <div class="inpDiv">
+              <label>Height:</label>
+              <input id="form_height" value="21" name="height" type="number">
+            </div>
+            <div>
+              <p id="mapStuffResponse"></p>
+            </div>
+            <div class="buttonsDiv">
+              <button type="button" id="createMapButton"><i class="fa fa-plus"></i> Create map</button>
+              <button type="button" id="exportMapButton"><i class="fa fa-download"></i> Export Map</button>
+              <button type="button" id="loadMapButton"><i class="fa fa-upload"></i> Load Map</button>
+            </div>
+          </div>
+           <div class="robotSettings">
+            <div>
+              <h2 id="canvasSign">Robot Settings</h2>
+              <h2 id="canvasSignTip"><i>Click in map to add one</i></h2>
+              <div class="inpDiv">
+                <label>Movement:</label>
+                <select id="movements">
+                  <option value="randomWalk" select="selected">Random</option>
+                  <option value="wallTurn">Turn at Wall</option>
+                  <option value="wallBounce">Bounce between walls</option>
+                  <option value="rightHand">Right Hand Method</option>
+                  <option value="leftHand">Left Hand Method</option>
+                </select>
+              </div>
+              <div class="inpDiv">
+                <p id="delayResponse"></p>
+                <label>Delay (ms):</label>
+                <input id="form_delay" value="500" name="delay" type="number">
+              </div>
+            </div>
+            <div class="buttonsDiv">
+              <button type="button" id="unpauseButton"><i class="fa fa-play"></i> Play</button>
+              <button type="button" id="pauseButton"><i class="fa fa-pause"></i> Pause</button>
+              <button type="button" id="killButton"><i class="fa fa-trash"></i> Delete all robots</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <label>Height:</label>
-          <input id="form_height" value="21" name="height" type="number">
-        </div>
-        <div>
-          <button type="button" id="createMapButton">Create map</button>
-        </div>
-        <div>
-          <p id="mapStuffResponse"></p>
-        </div>
-        <div>
-          <button type="button" id="exportMapButton"><i class="fa fa-download"></i> Export Map</button>
-          <button type="button" id="loadMapButton"><i class="fa fa-upload"></i> Load Map</button>
-        </div>
-        <div>
-          <h2 id="canvasSign">Robots (Click in map to add one):</h2>
-          <p id="delayResponse"></p>
-          <label>Delay (ms):</label>
-          <input id="form_delay" value="500" name="delay" type="number">
-        </div>
-        <div>
-          <button type="button" id="pauseButton"><i class="fa fa-pause"></i> Pause</button>
-          <button type="button" id="unpauseButton"><i class="fa fa-play"></i> Play</button>
-        </div>
-        <div>
-          <label>Robots movement function:</label>
-          <select id="movements">
-            <option value="randomWalk" select="selected">Random</option>
-            <option value="wallTurn">Turn at Wall</option>
-            <option value="wallBounce">Bounce between walls</option>
-            <option value="rightHand">Right Hand Method</option>
-            <option value="leftHand">Left Hand Method</option>
-          </select>
-        </div>
-        <div>
-          <button type="button" id="killButton"><i class="fa fa-trash"></i> Delete all robots</button>
-        </div>
-      </form>
     </div>
 
-    <div class="pageColumn">
+    <div class="pageColumn" id="canvasColumn">
       <canvas id="mapCanvas" style="border:2px solid #c3c3c3;">
         The Canvas HTML5 element is not supported by your browser. 
         Please run this page in a different browser.
