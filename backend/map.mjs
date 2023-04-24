@@ -1,7 +1,7 @@
 /**
  * A module that contains a map class that generates the map - part of WAP project 2
  * @module Map
- * @author: Vojtech Fiala <xfiala61>
+ * @author Vojtech Fiala <xfiala61>
  * 
 */
 

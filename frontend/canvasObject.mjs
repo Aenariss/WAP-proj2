@@ -1,7 +1,7 @@
 /**
  * A module that contains an canvas object and providing its getters and setters, meant as super class for Rectangle and RobotIcon
  * @module canvasObject
- * @author: Zaneta Grossova <xgross11>
+ * @author Zaneta Grossova <xgross11>
 */
 
 /**

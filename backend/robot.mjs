@@ -1,7 +1,7 @@
 /**
  * A module that contains a Robot class - part of WAP project 2
  * @module Robot
- * @author: Vojtech Fiala <xfiala61>
+ * @author Vojtech Fiala <xfiala61>
  * 
 */
 

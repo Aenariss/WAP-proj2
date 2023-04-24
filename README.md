@@ -14,6 +14,9 @@ Složka static/ obsahuje statické soubory jako .css
 
 Projekt pro své fungování nepotřebuje žádné knihovny, krom JSDocu pro vygenerování dokumentace. Frontend ovšem využívá volně dostupný CSS framework *Bootstrap* k definici vzhledu některých prvků.
 
+## Testování
+
+Řešení bylo testováno v prohlížečích Mozzila Firefox, Brave a Google Chrome, kdy se ve všech případech ukázalo jako funkční. Testování probíhalo z povahy projektu pouze manuálně, kdy byly zkoušeny různé kombinace vstupů, primárně pak krajní hodnoty. Taktéž bylo pouze manuálně testováno, že se roboti pohybují korektně podle zvolené pohybové funkce a jejich dráha odpovídá očekávané dráze.
 
 ## Informace k objektovému modelu
 Aplikace je, jak bylo již zmíněno, rozdělena na backend a frontend a soubory přilehající k jendotlivým částem jsou v odpovídajících složkách. 

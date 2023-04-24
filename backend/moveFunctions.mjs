@@ -1,7 +1,7 @@
 /**
  * A module that contains a move functions, meant to be used with the Robot class
  * @module moveFunctions
- * @author: Vojtech Fiala <xfiala61>
+ * @author Vojtech Fiala <xfiala61>
  * 
 */
 

@@ -1,7 +1,7 @@
 /**
  * A module that contains function printMap
  * @module printMap
- * @author: Zaneta Grossova <xgross11>
+ * @author Zaneta Grossova <xgross11>
 */
 
 import { RobotIcon } from "./robotIcon.mjs";
@@ -37,7 +37,7 @@ export function printMap(height, width, canvas, context, controller) {
                 robot.drawRobot();
             } else {
                 let rect = new Rectangle(row, col, cellSize, map, context);
-            rect.drawRectangle();
+                rect.drawRectangle();
             }
             
             

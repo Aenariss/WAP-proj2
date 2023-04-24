@@ -1,7 +1,7 @@
 /**
  * A module that contains a Rectangle class
  * @module rectangle
- * @author: Zaneta Grossova <xgross11>
+ * @author Zaneta Grossova <xgross11>
 */
 
 import { CanvasObject } from "./canvasObject.mjs";
@@ -32,6 +32,9 @@ export class Rectangle extends CanvasObject {
         }
         else if (map[row][col] === "1") { // wall is brown
             cellColor = '#5d5546';
+        }
+        else {
+            cellColor = '#111546';
         }
         context.beginPath();
         context.fillStyle = cellColor;

@@ -1,6 +1,7 @@
 /**
  * Frontend controller
- * @author: Zaneta Grossova <xgross11>, Vojtech Fiala <xfiala61>
+ * @author Zaneta Grossova <xgross11>
+ * @author Vojtech Fiala <xfiala61>
  */
 
 import { printMap } from '../frontend/printMap.mjs';

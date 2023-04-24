@@ -1,7 +1,7 @@
 /**
  * A module that contains a RobotIcon class
  * @module robotIcon
- * @author: Zaneta Grossova <xgross11>
+ * @author Zaneta Grossova <xgross11>
 */
 
 import { CanvasObject } from "./canvasObject.mjs";

@@ -1,7 +1,7 @@
 /**
  * Module that exports a class that acts as a controller that controls the map and robots withing - part of WAP Project 2
  * @module Controller
- * @author: Vojtech Fiala
+ * @author Vojtech Fiala
  */
 
 import { Map } from "../backend/map.mjs";
